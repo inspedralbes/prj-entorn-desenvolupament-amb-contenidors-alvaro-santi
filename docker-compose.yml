@@ -56,33 +56,3 @@ services:
 
 
 
-#############################################
-
-
-# Servidor node que aixeca un WebSocker al prt 8080
-# el codi està a la carpeta "node" i s'executa amb "npm start"
-# S'ha de fer un npm install per instal·lar les dependències ABANS
-# d'engegar-ho tot
-# El Dockerfile és totalment autocontingut, però aquí depen de la carpeta node_modules
-# que ja hi hagi
-  node:
-    image: node:19-buster-slim
-    volumes:
-      - ./node:/home/node/app
-    working_dir: /home/node/app
-    command: "npm start"
-    ports:
-      - 8080:8080
-
-
-# Servidor web NGINX per servir els fitxers estàtics pel port 80
-# Serveix els fitxers de la carpeta "front" 
-  nginx:
-    image: nginx:1.25.3-alpine
-    volumes:
-      - ./front:/usr/share/nginx/html
-    ports:
-      - 80:80
-    depends_on:
-      - node
-
